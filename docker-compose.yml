@@ -1,0 +1,48 @@
+version: '3.5'
+
+services:
+  vcoach_backend:
+    build: .
+    image: vcoach_backend
+    container_name: vcoach_backend
+    networks:
+      - vcoach
+    entrypoint: /app/docker-entrypoint.sh
+    command: rails server -b 0.0.0.0
+    restart: "no"
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    # tty: true
+    # stdin_open: true
+    depends_on:
+      - vcoach_database
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+      - ~/.ssh:/root/.ssh
+      - ~/.gitconfig:/root/.gitconfig
+
+  postgresql:
+    image: postgres
+    container_name: vcoach_database
+    networks:
+      - vcoach
+    restart: "no"
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: vCoach_Backend_development
+      POSTGRES_USER: vCoach_Backend
+      POSTGRES_PASSWORD: vCoach_Backend
+    volumes:
+      - vCoach_Backend_development:/var/lib/postgresql/data/
+volumes:
+  vCoach_Backend_development:
+  bundle:
+
+networks:
+    vcoach:
+        name: vcoach
+        driver: bridge
