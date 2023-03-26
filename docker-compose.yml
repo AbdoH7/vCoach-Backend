@@ -22,7 +22,7 @@ services:
       - ~/.ssh:/root/.ssh
       - ~/.gitconfig:/root/.gitconfig
 
-  vcoach_database:
+  postgresql:
     image: postgres
     container_name: vcoach_database
     networks:
