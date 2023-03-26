@@ -26,25 +26,29 @@ module Api
             end
         
             def login
-                @user = User.find_by_email(params[:email])
-                if @user&.authenticate(params[:password])
+                @user = User.find_by_email(downcase_email)
+                if @user&.authenticate(user_params[:password])
                   token = JsonWebToken.encode(user_id: @user.id)
                   time = Time.now + 24.hours.to_i
                   render json: { user: UserBlueprint.render_as_hash(@user) ,token: token, exp: time.strftime("%m-%d-%Y %H:%M")}, status: :ok
                 else
-                  render json: { error: 'unauthorized' }, status: :unauthorized
+                  render json: { error: 'Wrong email or password' }, status: :unauthorized
                 end
             end
-        
+
             private
             def user_params
             params.permit(:user_type, :email, :password, :first_name, :last_name, :DOB, :phone_number)
             end
-        
+
             def find_user
-            @user = User.find(params[:id])
+            @user = User.find(user_params[:id])
             end
-        
+
+            def downcase_email
+                user_params[:email].downcase
+            end
+
         end
     end
 end
