@@ -14,10 +14,8 @@ services:
       - .env
     ports:
       - 3000:3000
-    # tty: true
-    # stdin_open: true
     depends_on:
-      - vcoach_database
+      - postgresql
     volumes:
       - .:/app
       - bundle:/usr/local/bundle
