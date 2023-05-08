@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_11_150430) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_27_133610) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "invites", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "email", null: false
+    t.string "token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.check_constraint "user_id IS NOT NULL AND is_doctor(user_id)", name: "ck_user_type"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -26,4 +35,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_150430) do
     t.string "phone_number"
   end
 
+  add_foreign_key "invites", "users", on_delete: :nullify
 end
