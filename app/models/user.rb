@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
     has_secure_password
 
+    has_many :invites
+
     EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
     PASSWORD_REGEX = /\A(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d])(?!.*\s).*\z/
     TYPE_REGEX = /\A^(doctor|patient)$\Z/
@@ -13,6 +15,10 @@ class User < ApplicationRecord
     validates :password, format: { with: PASSWORD_REGEX }
     validates :user_type, format: {with: TYPE_REGEX}
     validates :phone_number, presence: true ,uniqueness: true 
+
+    def full_name
+        "#{first_name} #{last_name}"
+    end
 
     private
 

@@ -4,15 +4,22 @@ module Api
         
 
             skip_before_action :authenticate_user, only: [:create, :login]
-            before_action :find_user, only: [:show, :update, :destroy]
         
             def index
-                users = User.all
+                authorize User
+                #users = UserPolicy::Scope.new(@current_user, User).resolve
+                users = policy_scope(User)
                 render json: {users: UserBlueprint.render_as_hash(users)}, status: 200
             end
         
             def show
-                render json: UserBlueprint.render_as_hash(@user), status: 200
+                authorize User
+                begin
+                    user = policy_scope(User).find(user_params[:id])
+                    render json: UserBlueprint.render_as_hash(user), status: 200
+                rescue ActiveRecord::RecordNotFound
+                    render json: { error: 'User not found' }, status: :not_found
+                end
             end
         
             def create
@@ -38,11 +45,7 @@ module Api
 
             private
             def user_params
-            params.permit(:user_type, :email, :password, :first_name, :last_name, :DOB, :phone_number)
-            end
-
-            def find_user
-            @user = User.find(user_params[:id])
+            params.permit(:id, :user_type, :email, :password, :first_name, :last_name, :DOB, :phone_number)
             end
 
             def downcase_email

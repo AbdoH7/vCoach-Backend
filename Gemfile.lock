@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.4)
+      public_suffix (>= 2.0.2, < 6.0)
     bcrypt (3.1.18)
     blueprinter (0.25.3)
     bootsnap (1.16.0)
@@ -86,6 +88,15 @@ GEM
     irb (1.6.3)
       reline (>= 0.3.0)
     jwt (2.7.0)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -112,8 +123,11 @@ GEM
     nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
     pg (1.4.6)
+    public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
+    pundit (2.3.0)
+      activesupport (>= 3.0.0)
     racc (1.6.2)
     rack (2.2.6.3)
     rack-cors (2.0.1)
@@ -149,6 +163,7 @@ GEM
     rake (13.0.6)
     reline (0.3.2)
       io-console (~> 0.5)
+    rexml (3.2.5)
     thor (1.2.1)
     timeout (0.3.2)
     tzinfo (2.0.6)
@@ -167,8 +182,11 @@ DEPENDENCIES
   bootsnap
   debug
   jwt
+  letter_opener
+  letter_opener_web
   pg (~> 1.1)
   puma (~> 5.0)
+  pundit (~> 2.3)
   rack-cors
   rails (~> 7.0.4)
   tzinfo-data
