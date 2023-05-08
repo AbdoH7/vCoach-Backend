@@ -1,0 +1,2 @@
+class DoctorPatientAssignment < ApplicationRecord
+end
