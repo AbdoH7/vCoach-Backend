@@ -28,7 +28,7 @@ module Api
                     token = JsonWebToken.encode(user_id: @user.id)
                     render json: {user: UserBlueprint.render_as_hash(@user) ,token: token}, status: :created
                 else
-                    render json: {erors: @user.errors.full_messages}, status: 503
+                    render json: {erors: @user.errors.full_messages}, status: 409
                 end
             end
         
