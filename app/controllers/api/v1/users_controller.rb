@@ -24,6 +24,7 @@ module Api
       end
   
       def create
+        ##this method need to be refactored
         @user = User.new(user_params)
         if @user.save
           token = JsonWebToken.encode(user_id: @user.id)
@@ -35,6 +36,8 @@ module Api
             else
               render json: {user: UserBlueprint.render_as_hash(@user) ,token: token ,assignment_errors: @assignment.errors.full_messages}, status: :created
             end
+          else
+            render json: {user: UserBlueprint.render_as_hash(@user) ,token: token}, status: :created
           end
 
         else
