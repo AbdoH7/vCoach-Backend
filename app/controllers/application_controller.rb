@@ -11,6 +11,15 @@ class ApplicationController < ActionController::API
   def pundit_user
     @current_user
   end
+
+  def isDoctor?
+    @current_user.user_type == 'doctor'
+  end
+
+  def isPatient?
+    @current_user.user_type == 'patient'
+  end
+
   private
 
   def authenticate_user

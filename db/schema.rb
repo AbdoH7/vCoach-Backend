@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_27_133610) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_08_213044) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "doctor_patient_assignments", force: :cascade do |t|
+    t.integer "doctor_id", null: false
+    t.integer "patient_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.check_constraint "doctor_id IS NOT NULL AND is_type_doctor(doctor_id)", name: "ck_doctor_patient_assignments_doctor"
+    t.check_constraint "patient_id IS NOT NULL AND is_type_patient(patient_id)", name: "ck_doctor_patient_assignments_patient"
+  end
 
   create_table "invites", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -35,5 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_27_133610) do
     t.string "phone_number"
   end
 
+  add_foreign_key "doctor_patient_assignments", "users", column: "doctor_id", on_delete: :nullify
+  add_foreign_key "doctor_patient_assignments", "users", column: "patient_id", on_delete: :nullify
   add_foreign_key "invites", "users", on_delete: :nullify
 end
