@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_08_213044) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_223138) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_213044) do
     t.integer "patient_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["doctor_id", "patient_id"], name: "index_doctor_patient_assignments_on_doctor_id_and_patient_id", unique: true
     t.check_constraint "doctor_id IS NOT NULL AND is_type_doctor(doctor_id)", name: "ck_doctor_patient_assignments_doctor"
     t.check_constraint "patient_id IS NOT NULL AND is_type_patient(patient_id)", name: "ck_doctor_patient_assignments_patient"
   end
@@ -29,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_08_213044) do
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "accepted", default: false, null: false
     t.check_constraint "user_id IS NOT NULL AND is_doctor(user_id)", name: "ck_user_type"
   end
 
