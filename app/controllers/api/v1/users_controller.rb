@@ -2,9 +2,8 @@ module Api
     module V1
         class UsersController < ApplicationController
         
-
             skip_before_action :authenticate_user, only: [:create, :login]
-        
+            skip_before_action :validate_request, only: [:create, :login]
             def index
                 authorize User
                 #users = UserPolicy::Scope.new(@current_user, User).resolve
