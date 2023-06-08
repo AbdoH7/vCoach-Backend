@@ -4,6 +4,7 @@ module Api
     
 
       skip_before_action :authenticate_user, only: [:create, :login]
+      skip_before_action :validate_request, only: [:create, :login]
   
       def index
         authorize User

@@ -55,6 +55,14 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "vCoach_Backend_production"
 
+
+  ###This need to be removed when we configure an actual smtp server###
+  # Use Letter Opener for email delivery
+  config.action_mailer.delivery_method = :letter_opener
+
+  # Set default URL options for the Devise mailer
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
