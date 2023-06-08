@@ -43,11 +43,15 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem "rack-cors"
 
+ ###This need to be removed when we configure an actual smtp server and include the letter oppener gems for dev group only###
+gem 'letter_opener'
+gem 'letter_opener_web'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
-  gem 'letter_opener'
-  gem 'letter_opener_web'
+  #gem 'letter_opener'
+  #gem 'letter_opener_web'
 end
 
 group :development do
