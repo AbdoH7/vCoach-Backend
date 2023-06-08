@@ -1,7 +1,7 @@
 require 'jwt'
 class ApplicationController < ActionController::API
   include Pundit::Authorization
-  before_action :validate_request, :authenticate_user, except: [:create, :login]
+  before_action :validate_request, :authenticate_user
   rescue_from Pundit::NotAuthorizedError, with: :unauthorized
 
   # def authorize(record, query = nil)
