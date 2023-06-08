@@ -38,7 +38,7 @@ module Api
           end
 
         else
-          render json: {erors: @user.errors.full_messages}, status: 503
+          render json: {erors: @user.errors.full_messages}, status: 409
         end
       end
   
