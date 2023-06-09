@@ -28,10 +28,16 @@ module Api
         @user = User.new(user_params)
         if @user.save
           token = JsonWebToken.encode(user_id: @user.id)
-          if (user_params[:user_type]=='patient' && invite_param)
-            doc_id=Invite.find_by(token:invite_param).user_id
+          if (user_params[:user_type]=='patient' && invite_param.present?)
+            invite = Invite.find_by(token:invite_param)
+            if (invite.nil? || invite.accepted?)
+              render json: {user: UserBlueprint.render_as_hash(@user), token: token, assignment_errors: "Invite not found or already used"}, status: :created
+              return
+            end
+            doc_id = invite.user_id
             @assignment = DoctorPatientAssignment.new(doctor_id:doc_id, patient_id:@user.id)
             if @assignment.save
+              invite.update(accepted:true)
               render json: {user: UserBlueprint.render_as_hash(@user) ,token: token, doctor_id: doc_id}, status: :created
             else
               render json: {user: UserBlueprint.render_as_hash(@user) ,token: token ,assignment_errors: @assignment.errors.full_messages}, status: :created
@@ -41,7 +47,7 @@ module Api
           end
 
         else
-          render json: {erors: @user.errors.full_messages}, status: 409
+          render json: {errors: @user.errors.full_messages}, status: 409
         end
       end
   

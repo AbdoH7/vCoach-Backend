@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       resources :users, except: [:update, :destroy]
       post '/users/login', to: 'users#login'
       resources :invites, only: [:create, :index, :show]
+      resources :doctor_patient_assignments, only: [:create, :index]
+      post '/:doctor_patient_assignments/remove', to: 'doctor_patient_assignments#remove'
     end
   end
   
