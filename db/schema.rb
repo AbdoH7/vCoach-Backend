@@ -10,9 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_223138) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_25_211119) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "exercise_id", null: false
+    t.bigint "doctor_id", null: false
+    t.bigint "patient_id", null: false
+    t.jsonb "instructions", default: {}, null: false
+    t.boolean "status", default: false
+    t.boolean "missed", default: false
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "date", null: false
+    t.float "accuracy"
+    t.index ["doctor_id"], name: "index_assignments_on_doctor_id"
+    t.index ["exercise_id"], name: "index_assignments_on_exercise_id"
+    t.index ["patient_id"], name: "index_assignments_on_patient_id"
+    t.check_constraint "doctor_id IS NOT NULL AND is_type_doctor_for_assignments(doctor_id)", name: "ck_assignments_doctor"
+    t.check_constraint "patient_id IS NOT NULL AND is_type_patient_for_assignments(patient_id)", name: "ck_assignments_patient"
+  end
 
   create_table "doctor_patient_assignments", force: :cascade do |t|
     t.integer "doctor_id", null: false
@@ -22,6 +41,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_223138) do
     t.index ["doctor_id", "patient_id"], name: "index_doctor_patient_assignments_on_doctor_id_and_patient_id", unique: true
     t.check_constraint "doctor_id IS NOT NULL AND is_type_doctor(doctor_id)", name: "ck_doctor_patient_assignments_doctor"
     t.check_constraint "patient_id IS NOT NULL AND is_type_patient(patient_id)", name: "ck_doctor_patient_assignments_patient"
+  end
+
+  create_table "exercises", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.boolean "model_available", default: false, null: false
+    t.string "model_url"
+    t.string "video"
+    t.string "type"
+    t.string "body_area"
+    t.string "equipment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "instructions", default: {}, null: false
   end
 
   create_table "invites", force: :cascade do |t|
@@ -46,6 +79,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_223138) do
     t.string "phone_number"
   end
 
+  add_foreign_key "assignments", "exercises"
+  add_foreign_key "assignments", "users", column: "doctor_id"
+  add_foreign_key "assignments", "users", column: "patient_id"
   add_foreign_key "doctor_patient_assignments", "users", column: "doctor_id", on_delete: :nullify
   add_foreign_key "doctor_patient_assignments", "users", column: "patient_id", on_delete: :nullify
   add_foreign_key "invites", "users", on_delete: :nullify
