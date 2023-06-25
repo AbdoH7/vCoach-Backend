@@ -7,6 +7,9 @@ Rails.application.routes.draw do
       resources :invites, only: [:create, :index, :show]
       resources :doctor_patient_assignments, only: [:create, :index]
       post '/:doctor_patient_assignments/remove', to: 'doctor_patient_assignments#remove'
+      resources :exercises, only: [:index]
+      resources :assignments, only: [:index, :create, :update, :show, :destroy]
+      put '/assignments/:id/doctor_update', to: 'assignments#doctor_update'
     end
   end
   

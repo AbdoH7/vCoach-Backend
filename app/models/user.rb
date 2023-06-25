@@ -4,6 +4,8 @@ class User < ApplicationRecord
     has_secure_password
 
     has_many :invites
+    has_many :assignments_as_doctor, class_name: 'Assignment', foreign_key: 'doctor_id'
+    has_many :assignments_as_patient, class_name: 'Assignment', foreign_key: 'patient_id'
 
     EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
     PASSWORD_REGEX = /\A(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d])(?!.*\s).*\z/
@@ -24,6 +26,7 @@ class User < ApplicationRecord
 
     def downcase_email
         self.email = email.downcase if email.present?
+        self.email = email.strip if email.present?
     end
 
     def downcase_type
