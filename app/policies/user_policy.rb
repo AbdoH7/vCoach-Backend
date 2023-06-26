@@ -22,4 +22,8 @@ class UserPolicy <ApplicationPolicy
     true
   end
 
+  def update?
+    doctor? || user.id == record.id
+  end
+
 end
