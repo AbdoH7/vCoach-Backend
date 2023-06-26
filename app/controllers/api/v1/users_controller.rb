@@ -62,9 +62,35 @@ module Api
         end
       end
 
+      def update
+        authorize User
+        begin
+          user = policy_scope(User).find(user_params[:id])
+          if user.update(update_user_params)
+            if new_password_param
+              user.password =new_password_param
+              user.save
+            end
+            render json: UserBlueprint.render_as_hash(user), status: 200
+          else
+            render json: {errors: user.errors.full_messages}, status: 409
+          end
+        rescue ActiveRecord::RecordNotFound
+          render json: { error: 'User not found' }, status: :not_found
+        end
+      end
+
       private
       def user_params
         params.permit(:id, :user_type, :email, :password, :first_name, :last_name, :DOB, :phone_number)
+      end
+
+      def update_user_params
+        params.permit(:id, :email, :first_name, :last_name, :DOB, :phone_number, :password)
+      end
+
+      def new_password_param
+        params.permit(:new_password)[:new_password]
       end
 
       def invite_param
