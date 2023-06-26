@@ -4,17 +4,23 @@ class AvatarUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  storage :fog if Rails.env.production?
+  storage :file if Rails.env.development?
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "avatars/"
   end
 
   def default_url
     "/avatars/default_avatar.png"
+  end
+
+  if Rails.env.production?
+    def url
+      "#{ENV['MEDIA_BASE_URL']}/#{path}"
+    end
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
