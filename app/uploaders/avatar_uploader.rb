@@ -17,8 +17,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "/avatars/default_avatar.png"
   end
 
-  def url
-    "#{ENV['MEDIA_BASE_URL']}/#{path}"
+  if Rails.env.production?
+    def url
+      "#{ENV['MEDIA_BASE_URL']}/#{path}"
+    end
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
