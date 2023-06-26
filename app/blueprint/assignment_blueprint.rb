@@ -4,4 +4,6 @@ class AssignmentBlueprint < Blueprinter::Base
   fields :doctor_id, :instructions, :status, :missed, :notes, :accuracy
 
   association :exercise, blueprint: ExerciseBlueprint
+  association :doctor, blueprint: UserBlueprint
+  association :patient, blueprint: UserBlueprint
 end
