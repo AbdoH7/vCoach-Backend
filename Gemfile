@@ -46,6 +46,7 @@ gem "bootsnap", require: false
  ###This need to be removed when we configure an actual smtp server and include the letter oppener gems for dev group only###
 gem 'letter_opener'
 gem 'letter_opener_web'
+gem 'carrierwave'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -57,6 +58,10 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+end
+
+group :production do
+  gem 'fog-aws'
 end
 
 

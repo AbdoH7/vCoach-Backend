@@ -7,6 +7,8 @@ class User < ApplicationRecord
     has_many :assignments_as_doctor, class_name: 'Assignment', foreign_key: 'doctor_id'
     has_many :assignments_as_patient, class_name: 'Assignment', foreign_key: 'patient_id'
 
+    mount_uploader :avatar, AvatarUploader
+
     EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i
     PASSWORD_REGEX = /\A(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d])(?!.*\s).*\z/
     TYPE_REGEX = /\A^(doctor|patient)$\Z/

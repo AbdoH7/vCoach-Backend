@@ -82,11 +82,11 @@ module Api
 
       private
       def user_params
-        params.permit(:id, :user_type, :email, :password, :first_name, :last_name, :DOB, :phone_number)
+        params.permit(:id, :user_type, :email, :password, :first_name, :last_name, :DOB, :phone_number, :avatar)
       end
 
       def update_user_params
-        params.permit(:id, :email, :first_name, :last_name, :DOB, :phone_number, :password)
+        params.permit(:id, :email, :first_name, :last_name, :DOB, :phone_number, :password, :avatar)
       end
 
       def new_password_param
