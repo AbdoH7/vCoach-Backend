@@ -1,7 +1,7 @@
 class AssignmentBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :doctor_id, :instructions, :status, :missed, :notes, :accuracy
+  fields :doctor_id, :instructions, :status, :missed, :notes, :accuracy, :date
 
   association :exercise, blueprint: ExerciseBlueprint
   association :doctor, blueprint: UserBlueprint
