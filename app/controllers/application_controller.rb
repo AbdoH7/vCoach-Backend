@@ -3,6 +3,7 @@ class ApplicationController < ActionController::API
   include Pundit::Authorization
   before_action :validate_request, :authenticate_user
   rescue_from Pundit::NotAuthorizedError, with: :unauthorized
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   # def authorize(record, query = nil)
   #   super(record, query, @current_user)
@@ -46,4 +47,9 @@ class ApplicationController < ActionController::API
   def unauthorized
     render json: { error: "Unauthorized" }, status: :unauthorized
   end
+
+  def not_found
+    render json: { error: "Not Found" }, status: :not_found
+  end
+  
 end
