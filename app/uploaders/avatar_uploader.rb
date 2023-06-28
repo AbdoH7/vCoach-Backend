@@ -19,8 +19,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   if Rails.env.production?
     def url
-      "#{ENV['MEDIA_BASE_URL']}/#{path}" if path
-      "#{ENV['MEDIA_BASE_URL']}#{default_url}" if !path
+      return "#{ENV['MEDIA_BASE_URL']}/#{path}" if path
+      return "#{ENV['MEDIA_BASE_URL']}#{default_url}" if !path
     end
   end
 
