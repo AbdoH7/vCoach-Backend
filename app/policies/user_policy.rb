@@ -1,8 +1,7 @@
 class UserPolicy <ApplicationPolicy
   class Scope < Scope
     def resolve
-      return scope.where(id:user.id) if doctor?
-      raise Pundit::NotAuthorizedError, 'Unauthorized' if patient?
+      return scope.where(id:user.id) 
     end
   end
 
@@ -23,7 +22,7 @@ class UserPolicy <ApplicationPolicy
   end
 
   def update?
-    doctor? || user.id == record.id
+    true
   end
 
 end

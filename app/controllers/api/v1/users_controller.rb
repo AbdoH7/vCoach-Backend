@@ -2,7 +2,6 @@ module Api
   module V1
     class UsersController < ApplicationController
     
-
       skip_before_action :authenticate_user, only: [:create, :login]
       skip_before_action :validate_request, only: [:create, :login]
   
@@ -15,12 +14,8 @@ module Api
   
       def show
         authorize User
-        begin
-          user = policy_scope(User).find(user_params[:id])
-          render json: UserBlueprint.render_as_hash(user), status: 200
-        rescue ActiveRecord::RecordNotFound
-          render json: { error: 'User not found' }, status: :not_found
-        end
+        user = policy_scope(User).find(user_params[:id])
+        render json: UserBlueprint.render_as_hash(user), status: 200
       end
   
       def create
@@ -64,19 +59,15 @@ module Api
 
       def update
         authorize User
-        begin
-          user = policy_scope(User).find(user_params[:id])
-          if user.update(update_user_params)
-            if new_password_param
-              user.password =new_password_param
-              user.save
-            end
-            render json: UserBlueprint.render_as_hash(user), status: 200
-          else
-            render json: {errors: user.errors.full_messages}, status: 409
+        user = policy_scope(User).find(user_params[:id])
+        if user.update(update_user_params)
+          if new_password_param
+            user.password =new_password_param
+            user.save
           end
-        rescue ActiveRecord::RecordNotFound
-          render json: { error: 'User not found' }, status: :not_found
+          render json: UserBlueprint.render_as_hash(user), status: 200
+        else
+          render json: {errors: user.errors.full_messages}, status: 409
         end
       end
 
