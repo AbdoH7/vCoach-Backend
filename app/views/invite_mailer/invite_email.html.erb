@@ -1,3 +1,63 @@
-<p>Doctor: <%= @doctor_name %> is inviting you to join his team!</p>
-<p>Use the following token to create your account:</p>
-<p><%= @token %></p>
+<!-- invite_email.html.erb -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* CSS Styles */
+      body {
+        font-family: Arial, sans-serif;
+      }
+      
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f7f7f7;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+      }
+      
+      h1 {
+        color: #333333;
+        font-size: 24px;
+        text-align: center;
+      }
+      
+      .company-name {
+        font-weight: bold;
+        color: #5e3cc7;
+        font-size: 20px;
+        margin-bottom: 10px;
+      }
+      
+      p {
+        color: #555555;
+        line-height: 1.5;
+				text-align: center;
+      }
+      
+      .token {
+        padding: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+
+			<p class="company-name">vcoach</p>
+
+      <h1>Invitation to Join the Team</h1>
+      
+      <p>Doctor: <strong><%= @doctor_name %></strong> is inviting you to join their team!</p>
+      
+      <p>Use the following token to create your account:</p>
+      
+      <div class="token">
+        <strong><%= @token %></strong>
+      </div>
+    </div>
+  </body>
+</html>
