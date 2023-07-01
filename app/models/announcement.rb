@@ -8,9 +8,6 @@ class Announcement < ApplicationRecord
 
 	validate :user_is_doctor
 	
-	def is_liked
-		likes.exists?(user_id: user.id)
-	end
   
 	def likes_count
 		likes.count
@@ -25,8 +22,8 @@ class Announcement < ApplicationRecord
 	end
 
 	private
+
 		def user_is_doctor
 			errors.add(:user, "must be a doctor") unless user.user_type == "doctor"
 		end
-
 end
