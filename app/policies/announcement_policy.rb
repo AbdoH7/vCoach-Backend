@@ -4,7 +4,9 @@ class AnnouncementPolicy < ApplicationPolicy
 			return scope.where(user_id: user.id) if doctor?
 			if patient?
 				user_ids = DoctorPatientAssignment.where(patient_id: user.id).pluck(:doctor_id)
-				return scope.where(id: user_ids)
+				puts "------------------------------------------"
+				puts user_ids
+				return scope.where(user_id: user_ids)
 			end
 		end
 	end
