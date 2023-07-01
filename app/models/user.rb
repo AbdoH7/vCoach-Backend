@@ -7,6 +7,10 @@ class User < ApplicationRecord
     has_many :assignments_as_doctor, class_name: 'Assignment', foreign_key: 'doctor_id'
     has_many :assignments_as_patient, class_name: 'Assignment', foreign_key: 'patient_id'
 
+    has_many :announcements, dependent: :destroy
+    has_many :comments, dependent: :destroy
+    has_many :likes, dependent: :destroy
+    
     mount_uploader :avatar, AvatarUploader
 
     EMAIL_REGEX =  /\A([^-]+?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i

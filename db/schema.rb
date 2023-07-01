@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_29_054821) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_01_120155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "announcements", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_announcements_on_user_id"
+    t.check_constraint "user_id IS NOT NULL AND is_type_doctor_for_assignments(user_id)", name: "ck_announcements_doctor"
+  end
 
   create_table "assignments", force: :cascade do |t|
     t.bigint "exercise_id", null: false
@@ -31,6 +40,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_054821) do
     t.index ["patient_id"], name: "index_assignments_on_patient_id"
     t.check_constraint "doctor_id IS NOT NULL AND is_type_doctor_for_assignments(doctor_id)", name: "ck_assignments_doctor"
     t.check_constraint "patient_id IS NOT NULL AND is_type_patient_for_assignments(patient_id)", name: "ck_assignments_patient"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string "content"
+    t.bigint "user_id", null: false
+    t.bigint "announcement_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["announcement_id"], name: "index_comments_on_announcement_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "doctor_patient_assignments", force: :cascade do |t|
@@ -68,6 +87,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_054821) do
     t.check_constraint "user_id IS NOT NULL AND is_doctor(user_id)", name: "ck_user_type"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "announcement_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["announcement_id"], name: "index_likes_on_announcement_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -81,10 +109,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_29_054821) do
     t.string "avatar"
   end
 
+  add_foreign_key "announcements", "users"
   add_foreign_key "assignments", "exercises"
   add_foreign_key "assignments", "users", column: "doctor_id"
   add_foreign_key "assignments", "users", column: "patient_id"
+  add_foreign_key "comments", "announcements"
+  add_foreign_key "comments", "users"
   add_foreign_key "doctor_patient_assignments", "users", column: "doctor_id", on_delete: :nullify
   add_foreign_key "doctor_patient_assignments", "users", column: "patient_id", on_delete: :nullify
   add_foreign_key "invites", "users", on_delete: :nullify
+  add_foreign_key "likes", "announcements"
+  add_foreign_key "likes", "users"
 end
