@@ -11,7 +11,14 @@ class AnnouncementBlueprint < Blueprinter::Base
     field :is_liked do |announcement, options|
       current_user = options[:current_user]
       # Logic to determine if the current user has liked the announcement
-      current_user&.likes&.include?(announcement)
+      current_user&.liked_announcements&.include?(announcement)
+    end
+
+    field :like_id do |announcement, options|
+      current_user = options[:current_user]
+      # Logic to determine if the current user has liked the announcement
+      like = current_user&.likes&.find_by(announcement_id: announcement.id)
+      like&.id
     end
   end
 end

@@ -10,6 +10,7 @@ class User < ApplicationRecord
     has_many :announcements, dependent: :destroy
     has_many :comments, dependent: :destroy
     has_many :likes, dependent: :destroy
+    has_many :liked_announcements, through: :likes, source: :announcement
     
     mount_uploader :avatar, AvatarUploader
 
