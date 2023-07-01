@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       resources :exercises, only: [:index]
       resources :assignments, only: [:index, :create, :update, :show, :destroy]
       put '/assignments/:id/doctor_update', to: 'assignments#doctor_update'
+      resources :announcements
+      resources :comments, only: [:create, :destroy, :update]
+      resources :likes, only: [:create, :destroy]
     end
   end
   
