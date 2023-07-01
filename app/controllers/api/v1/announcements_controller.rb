@@ -4,6 +4,7 @@ module Api
 			def create
 				authorize Announcement
 				announcement = @current_user.announcements.build(announcement_params)
+
 				if announcement.valid?
 					announcement.save
 					render json: { announcement: AnnouncementBlueprint.render_as_hash(announcement) }, status: :created
@@ -15,7 +16,7 @@ module Api
 			def index
 				authorize Announcement
 				announcements = policy_scope(Announcement)
-				render json: { announcements: AnnouncementBlueprint.render_as_hash(announcements) }, status: 200
+				render json: { announcements: AnnouncementBlueprint.render_as_hash(announcements, current_user: @current_user) }, status: 200
 			end
 
 			def show
@@ -43,6 +44,7 @@ module Api
 			def announcement_params
 				params.permit(:content)
 			end
+
 		end
 	end
 end
