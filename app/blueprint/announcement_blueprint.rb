@@ -1,7 +1,7 @@
 class AnnouncementBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :user_id, :content, :likes_count, :comments_count, :created_at, :is_liked, :user_name
+  fields :user_id, :content, :likes_count, :comments_count, :created_at, :is_liked, :user_name, :time_passed
 
   association :user, blueprint: UserBlueprint
   association :comments, blueprint: CommentBlueprint
