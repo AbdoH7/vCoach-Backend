@@ -18,11 +18,11 @@ class User < ApplicationRecord
     PASSWORD_REGEX = /\A(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d])(?!.*\s).*\z/
     TYPE_REGEX = /\A^(doctor|patient)$\Z/
     
-    validates :email, format: { with: EMAIL_REGEX }, uniqueness: true
+    validates :email, format: { with: EMAIL_REGEX }, presence:true, uniqueness: true
     validates :first_name, presence: true
     validates :last_name, presence: true
-    validates :password, format: { with: PASSWORD_REGEX }
-    validates :user_type, format: {with: TYPE_REGEX}
+    validates :password, format: { with: PASSWORD_REGEX }, presence: true
+    validates :user_type, format: {with: TYPE_REGEX}, presence: true
     validates :phone_number, presence: true ,uniqueness: true 
 
     def full_name

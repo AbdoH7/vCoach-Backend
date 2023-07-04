@@ -48,6 +48,7 @@ gem 'letter_opener'
 gem 'letter_opener_web'
 gem 'carrierwave'
 gem 'fog-aws'
+gem 'rails-erd'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

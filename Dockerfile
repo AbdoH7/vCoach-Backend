@@ -7,6 +7,10 @@ RUN apt-get update --fix-missing && apt-get install -y --no-install-recommends a
 
 RUN apt-get install -y vim
 
+# Install Graphviz
+RUN apt-get install -y graphviz
+
+
 COPY Gemfile Gemfile.lock ./
 
 COPY . .

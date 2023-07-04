@@ -8,6 +8,7 @@ class Invite < ApplicationRecord
   validates :email, presence: true, format: { with: EMAIL_REGEX, message: "is not a valid email address" }
   validates :user, presence: true
   validates :user_type, inclusion: { in: ["doctor"], message: "must be a doctor" }
+  validates :token, presence: true, uniqueness: true
 
   private
 
