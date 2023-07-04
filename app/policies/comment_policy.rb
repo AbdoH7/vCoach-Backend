@@ -12,7 +12,7 @@ class CommentPolicy < ApplicationPolicy
 					user_ids.push(doctor_id)
 				end
 				user_ids.push(user.id)
-				return User.where(user_id: user_ids)
+				return scope.where(user_id: user_ids)
 			end
 		end
 	end

@@ -9,10 +9,10 @@ class LikePolicy < ApplicationPolicy
 				doctor_ids = DoctorPatientAssignment.where(patient_id: user.id).pluck(:doctor_id)
 				user_ids = DoctorPatientAssignment.where(doctor_id: doctor_ids).pluck(:patient_id)
 				doctor_ids.each do |doctor_id|
-						user_ids.push(doctor_id)
+					user_ids.push(doctor_id)
 				end
 				user_ids.push(user.id)
-				return User.where(user_id: user_ids)
+				return scope.where(user_id: user_ids)
 			end
 		end
 	end
